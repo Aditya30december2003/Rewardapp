@@ -1,7 +1,7 @@
 export const revalidate = 0;
 
 import { createAdminClient } from "@/appwrite/config";
-import RegisterForm from "@/components/auth/RegisterForm";
+import RegisterForm from "@/components/auth/Register";
 import Footer from "@/components/Footer";
 
 // Server Component
