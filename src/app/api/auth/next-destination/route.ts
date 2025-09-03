@@ -1,6 +1,6 @@
 // app/api/auth/next-destination/route.ts
 import { NextResponse } from "next/server";
-import { createSessionClient, createAdminClient } from "@/appwrite/config";
+import { createSessionClient, createAdminClient } from "@/lib/server/appwrite";
 
 const TENANTS_DB = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID!;
 const TENANTS_COL = process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID!;

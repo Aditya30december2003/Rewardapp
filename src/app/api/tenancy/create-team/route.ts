@@ -1,6 +1,6 @@
 // app/api/tenancy/create-team/route.ts
 import { NextResponse } from "next/server";
-import { createSessionClient, createAdminClient } from "@/appwrite/config";
+import { createSessionClient, createAdminClient } from "@/lib/server/appwrite";
 
 // If you don't use Permission/Role, feel free to remove the next line.
 // import { Permission, Role } from "node-appwrite";
@@ -9,6 +9,7 @@ const TENANTS_DB = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID!;
 const TENANTS_COL = process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID!;
 const APP_URL = process.env.NEXT_PUBLIC_DOMAIN || "http://localhost:3000";
 const INVITE_CALLBACK_URL = `${APP_URL}/auth/invite/callback`;
+export const runtime = "nodejs"; // ensure Node runtime
 
 /* --------------------- utils --------------------- */
 function readCookie(req: Request, name: string) {

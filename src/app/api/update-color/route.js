@@ -1,7 +1,8 @@
-import { createAdminClient } from "@/appwrite/config";
+import { createAdminClient } from "@/lib/server/appwrite";
 import { NextResponse } from "next/server";
 import { withAuth } from "@/lib/withAuth";
 import { z } from "zod";
+export const runtime = "nodejs"; // ensure Node runtime
 
 const Schema = z.object({
   bodyColor: z.string().min(1),

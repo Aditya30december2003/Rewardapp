@@ -1,10 +1,6 @@
 import auth from "@/lib/auth";
-import Login from "@/components/auth/Login";
-import { redirect } from "next/navigation";
 import Verify from "@/components/auth/Verify";
-import { IoMdClose } from "react-icons/io";
-import { HiOutlineRefresh } from "react-icons/hi";
-import { resendOTP } from "@/lib/actions";
+
 
 export default async function VerificationPage({ params }) {
   const { challengeId } = params;

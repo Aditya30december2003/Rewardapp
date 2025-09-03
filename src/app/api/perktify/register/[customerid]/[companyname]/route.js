@@ -2,6 +2,7 @@ import { createNewUserRegistration } from "@/lib/actions";
 import { NextResponse } from "next/server";
 import { corsHeaders, preflight } from "@/lib/cors";
 import { rateLimit } from "@/lib/rateLimit"; // add this file if you haven't yet (see below)
+// export const runtime = "nodejs"; // ensure Node runtime
 
 export function OPTIONS(req) {
   // Allow browser preflight if this is called from another allowed origin

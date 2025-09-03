@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createWebClient } from "@/appwrite/web";
+import { createWebClient } from "@/lib/client/appwrite";
 
 export default function VerifyPage() {
   const router = useRouter();

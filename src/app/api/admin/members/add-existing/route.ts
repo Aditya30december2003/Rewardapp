@@ -1,6 +1,6 @@
 // app/api/admin/members/add-existing/route.ts
 import { NextResponse } from "next/server";
-import { createAdminClient } from "@/appwrite/config";
+import { createAdminClient } from "@/lib/server/appwrite";
 
 const TENANTS_DB  = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID!;
 const TENANTS_COL = process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID!;

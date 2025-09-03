@@ -33,7 +33,7 @@
 // app/api/session/set/route.ts
 // app/api/session/set/route.ts
 import { NextResponse } from "next/server";
-
+// export const runtime = "nodejs"; // ensure Node runtime
 export async function POST(req) {
   const url = new URL(req.url);
   const debug = url.searchParams.get("debug") === "true";

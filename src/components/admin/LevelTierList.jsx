@@ -3,9 +3,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
-import { updateTiers, createTier, deleteTier } from "@/lib/actions";
+import { updateTiers } from "@/lib/actions";
 
-import { MoreVertical, Award, Plus, Trash2, Edit3 } from "lucide-react";
+import { MoreVertical, Award, Plus, Trash2, Edit3 } from "lucide-react"; 
 
 import {
   Card,
@@ -15,8 +15,6 @@ import {
   Button,
   Input,
   Progress,
-  Avatar,
-  Skeleton,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -399,7 +397,7 @@ const LevelTierList = ({ tiersData, isLoading }) => {
                 <Award className="text-default-300" size={48} />
                 <p className="mt-4 font-semibold text-default-700">No Tiers Configured</p>
                 <p className="text-sm text-default-500">
-                  Click "Add New Tier" to create your first loyalty level.
+                  Click Add New Tier to create your first loyalty level.
                 </p>
               </div>
             </Card>

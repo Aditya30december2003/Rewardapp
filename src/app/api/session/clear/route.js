@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-
+// export const runtime = "nodejs"; // ensure Node runtime
 export async function POST() {
   const isProd = process.env.NODE_ENV === "production";
   cookies().set({

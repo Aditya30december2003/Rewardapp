@@ -1,7 +1,8 @@
-import { createAdminClient } from "@/appwrite/config";
+import { createAdminClient } from "@/lib/server/appwrite";
 import { NextResponse } from "next/server";
 import { ID } from "node-appwrite";
 import { withAuth } from "@/lib/withAuth";
+export const runtime = "nodejs"; // ensure Node runtime
 
 const MAX = 2 * 1024 * 1024; // 2MB
 const OK = new Set(["image/png", "image/jpeg", "image/webp", "image/svg+xml"]);

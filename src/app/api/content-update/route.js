@@ -1,6 +1,6 @@
-import { createAdminClient } from "@/appwrite/config";
+import { createAdminClient } from "@/lib/server/appwrite";
 import { NextResponse } from "next/server";
-
+export const runtime = "nodejs"; // ensure Node runtime
 export async function POST(req) {
   try {
     const { heading, title, dbId } = await req.json();

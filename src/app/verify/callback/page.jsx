@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createWebClient } from "@/appwrite/web";
+import { createWebClient } from "@/lib/client/appwrite";
 
 export default function VerifyCallbackPage() {
   const router = useRouter();

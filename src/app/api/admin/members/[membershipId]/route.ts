@@ -1,7 +1,8 @@
 // app/api/admin/members/[membershipId]/route.ts
+export const runtime = "nodejs";
 import { NextResponse } from "next/server";
 import { cookies as nextCookies } from "next/headers";
-import { createAdminClient } from "@/appwrite/config";
+import { createAdminClient } from "@/lib/server/appwrite";
 
 const TENANTS_DB = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID!;
 const TENANTS_COL = process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID!;

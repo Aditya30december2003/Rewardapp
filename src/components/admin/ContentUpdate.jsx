@@ -1,7 +1,5 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { ID } from "node-appwrite";
-import { createAdminClient } from "@/appwrite/config";
 import { toast } from "react-toastify";
 
 const ContentUpdate = ({ prefs, Heading, Title, bodyColor }) => {

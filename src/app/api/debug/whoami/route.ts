@@ -1,8 +1,8 @@
 // app/api/debug/whoami/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { createSessionClient } from "../../../../appwrite/config";
-
+import { createSessionClient } from "@/lib/server/appwrite";
+export const runtime = "nodejs"; // ensure Node runtime
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const debug = url.searchParams.get("debug") === "true";

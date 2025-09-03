@@ -1,9 +1,7 @@
 import { createAdminClient } from "@/appwrite/config";
-import { createNewPerktifyUser } from "@/lib/actions";
 import { stripe } from "@/lib/stripe";
 import { headers } from "next/headers";
-import { ID } from "node-appwrite";
-
+export const runtime = "nodejs"; // ensure Node runtime
 export async function POST(req) {
   const body = await req.text();
 

@@ -1,12 +1,6 @@
-import auth from "@/lib/auth";
-import Login from "@/components/auth/Login";
-import { redirect } from "next/navigation";
-import Verify from "@/components/auth/Verify";
-import { IoMdClose } from "react-icons/io";
-import { HiOutlineRefresh } from "react-icons/hi";
-import { resendOTP } from "@/lib/actions";
+
 import Link from "next/link";
-import Recovery from "@/components/auth/Recovery";
+
 import NewPassword from "@/components/auth/NewPassword";
 
 export default async function PasswordResetPage({ searchParams }) {

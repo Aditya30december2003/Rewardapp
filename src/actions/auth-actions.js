@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createSessionClient } from "../appwrite/config";
+import { createSessionClient } from "@/lib/server/appwrite";
 
 export async function deleteSession() {
   const session = cookies().get("session");

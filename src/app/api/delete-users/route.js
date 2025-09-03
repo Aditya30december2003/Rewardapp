@@ -1,8 +1,8 @@
-import { createAdminClient } from "@/appwrite/config";
+import { createAdminClient } from "@/lib/server/appwrite";
 import { NextResponse } from "next/server";
 import { Query } from "node-appwrite";
 import { withAuth } from "@/lib/withAuth";
-
+export const runtime = "nodejs"; // ensure Node runtime
 function assertNotProd() {
   if (process.env.NODE_ENV === "production") {
     throw new Error("Disabled in production");
