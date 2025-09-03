@@ -115,7 +115,7 @@ export async function POST(req: Request) {
     const team = await teams.create(ID.unique(), rawName);
 
     // --- create tenant document (store normalizedName) ---
-    const tenantDoc = await databases.createDocument(TENANTS_DB, TENANTS_COL, ID.unique(), {
+    const tenantDoc = await databases.createDocument(TENANTS_DB, TENANTS_COL, ID.unique(), { 
       teamId: team.$id,
       slug: finalSlug,
       name: rawName,

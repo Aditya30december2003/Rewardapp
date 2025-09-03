@@ -1124,7 +1124,7 @@ export async function UpdateUserPassword(prevState, formData) {
     const { users } = await createAdminClient();
 
     if (newpwd !== confirmpwd) {
-      return { message: "Passwords Donot Match", type: "error" };
+      return { message: "Passwords Donot Match", type: "error" }; 
     } else {
       await users.updatePassword(userId, newpwd);
       return { message: "Password Updated Successfully", type: "success" };

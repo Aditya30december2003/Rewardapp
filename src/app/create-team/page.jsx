@@ -8,51 +8,52 @@ export default function CreateTeamPage() {
   const [submitting, setSubmitting] = useState(false);
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
+  const [redirecting, setRedirecting] = useState(false);
   const router = useRouter();
 
-// (client) CreateTeamPage component — onSubmit error handling
-async function onSubmit(e) {
-  e.preventDefault();
-  setSubmitting(true);
-  setErr("");
-  setMsg("");
+  // (client) CreateTeamPage component — onSubmit error handling
+  async function onSubmit(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    setErr("");
+    setMsg("");
 
-  try {
-    const res = await fetch("/api/tenancy/create-team", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name }),
-    });
+    try {
+      const res = await fetch("/api/tenancy/create-team", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ name }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      if (res.status === 409) {
-        throw new Error("That team name is taken. Try a different name.");
+      if (!res.ok) {
+        if (res.status === 409) {
+          throw new Error("That team name is taken. Try a different name.");
+        }
+        throw new Error(data?.error || "Failed to create team");
       }
-      throw new Error(data?.error || "Failed to create team");
+
+      setMsg(`Team "${data?.name}" created. We've sent an ownership confirmation to your email.`);
+      setRedirecting(true);
+
+      const dest = await fetch("/api/auth/next-destination", { method: "POST" })
+        .then((r) => r.json())
+        .catch(() => ({ path: "/choose-workspace" }));
+
+      setTimeout(() => router.replace(dest?.path || "/choose-workspace"), 600);
+    } catch (e) {
+      setErr(e?.message || "Something went wrong");
+    } finally {
+      setSubmitting(false);
     }
-
-    setMsg(`Team “${data?.name}” created. We’ve sent an ownership confirmation to your email.`);
-
-    const dest = await fetch("/api/auth/next-destination", { method: "POST" })
-      .then((r) => r.json())
-      .catch(() => ({ path: "/choose-workspace" }));
-
-    setTimeout(() => router.replace(dest?.path || "/choose-workspace"), 600);
-  } catch (e) {
-    setErr(e?.message || "Something went wrong");
-  } finally {
-    setSubmitting(false);
   }
-}
-
 
   return (
     <main className="mx-auto max-w-md px-4 py-10">
       <h1 className="text-2xl font-bold">Create a new team</h1>
       <p className="mt-2 text-sm text-gray-600">
-        You’ll be the owner and can invite teammates after creation.
+        You will be the owner and can invite teammates after creation.
       </p>
 
       {msg && <div className="mt-4 rounded-md bg-green-50 p-3 text-green-700">{msg}</div>}
@@ -78,6 +79,12 @@ async function onSubmit(e) {
           {submitting ? "Creating…" : "Create team"}
         </button>
       </form>
+      
+      {redirecting && (
+        <div className="mt-8 rounded-md bg-gray-50 p-4 text-sm text-gray-700">
+          Please wait while we redirect you to your workspace.
+        </div>
+      )}
     </main>
   );
 }

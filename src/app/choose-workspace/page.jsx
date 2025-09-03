@@ -38,9 +38,9 @@ export default function ChooseWorkspacePage() {
       </div>
 
       <div className="mt-8 rounded-md bg-gray-50 p-4 text-sm text-gray-700">
-        Tip: If you expected to see a team here, ask your admin to send you an invite, or{" "}
+        Tip: If you expect to be in a team here, ask your admin and he will add you in the team.
         <Link href="/create-team" className="text-indigo-600 underline">
-          create one now
+          or create one now
         </Link>.
       </div>
     </main>
