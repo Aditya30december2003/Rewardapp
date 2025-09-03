@@ -90,8 +90,9 @@ export default async function MainLayout({ children }) {
       const prefs = await users.getPrefs(user.$id);
       if (prefs.dbId) {
         const currentUser = await databases.getDocument(
-          process.env.NEXT_PUBLIC_Tenants_DATABASE_ID,
-          process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID,
+          process.env.TENANTS_DATABASE_ID,
+          process.env.TENANTS_COLLECTION_ID
+,
           prefs.dbId
         );
         PremiumAccess = !!currentUser?.PremiumPlan;

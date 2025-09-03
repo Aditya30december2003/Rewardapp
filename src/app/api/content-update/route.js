@@ -7,8 +7,12 @@ export async function POST(req) {
     const { databases } = await createAdminClient();
 
     await databases.updateDocument(
-      process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-      process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+      process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+      process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
       dbId,
       { heading, title }
     );

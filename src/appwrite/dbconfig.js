@@ -41,7 +41,7 @@ export const appwriteBucket = {
 // Centralized collections configuration
 export const appwriteCollections = {
   tiers: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_TIERS),
+    id: String(process.env.TIERS_COLLECTION_ID),
     name: "tiers",
     permissions: [], // No permissions assigned
     attributes: [
@@ -59,7 +59,7 @@ export const appwriteCollections = {
     ],
   },
   campaigns: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_COMPAIGNS),
+    id: String(process.env.COMPAIGNS_COLLECTION_ID),
     name: "campaigns",
     permissions: [], // No permissions assigned
     attributes: [
@@ -88,7 +88,8 @@ export const appwriteCollections = {
     ],
   },
   userPoints: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_POINTS),
+    id: String(process.env.POINTS_COLLECTION_ID
+),
     name: "userPoints",
     permissions: [], // No permissions assigned
     attributes: [
@@ -100,7 +101,7 @@ export const appwriteCollections = {
     ],
   },
   queries: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_QUERIES),
+    id: String(process.env.QUERIES_COLLECTION_ID),
     name: "queries",
     permissions: [], // No permissions assigned
     attributes: [
@@ -132,13 +133,13 @@ export const appwriteCollections = {
     ],
   },
   transactions: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_TRANSACTIONS),
+    id: String(process.env.TRANSACTIONS_COLLECTION_ID),
     name: "transactions",
     permissions: [], // No permissions assigned
     attributes: [],
   },
   rewards: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_REWARDS),
+    id: String(process.env.REWARDS_COLLECTION_ID),
     name: "rewards",
     permissions: [], // No permissions assigned
     attributes: [
@@ -183,7 +184,8 @@ export const appwriteCollections = {
     ],
   },
   Users: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_USERS),
+    id: String(process.env.USERS_COLLECTION_ID
+),
     name: "Users",
     permissions: [], // No permissions assigned
     attributes: [
@@ -269,7 +271,9 @@ export const appwriteCollections = {
     ],
   },
   leads: {
-    id: String(process.env.NEXT_PUBLIC_COLLECTION_ID_LEADS),
+    id: String(process.env.CRM_COLLECTION_LEADS
+
+),
     name: "leads",
     permissions: [], // No permissions assigned
     attributes: [],

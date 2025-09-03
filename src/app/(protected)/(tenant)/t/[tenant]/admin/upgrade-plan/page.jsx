@@ -8,8 +8,12 @@ const UpgradePlan = async () => {
   const user = await auth.getUser();
   const prefs = await users.getPrefs(user.$id);
   const data = await databases.getDocument(
-    process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-    process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+    process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+    process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
     prefs.dbId
   );
   return (

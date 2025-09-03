@@ -15,8 +15,12 @@ export default async function InvitedRegisterPage({ params }) {
 
     // Look up the subscriber/config doc
     const doc = await databases.getDocument(
-      process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-      process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+      process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+      process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
       adminId
     );
 
@@ -27,7 +31,10 @@ export default async function InvitedRegisterPage({ params }) {
     if (!matched) return <InvalidCustomerPage />;
 
     // Build branding asset URLs
-    const bucketId = process.env.NEXT_PUBLIC_LOGOS_STORAGE_ID;
+    const bucketId = process.env.LOGOS_STORAGE_ID
+
+
+;
     const appwriteUrl = process.env.NEXT_PUBLIC_ENDPOINT;
     const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 

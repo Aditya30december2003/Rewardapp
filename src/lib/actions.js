@@ -729,7 +729,7 @@ export async function updateTiers(prevState, formData) {
 
     await databases.updateDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_TIERS,
+      // process.env.TIERS_COLLECTION_ID,
       prefs.dbId,
       prefs.tiers,
       tierId,
@@ -760,7 +760,7 @@ export async function createRewardCoupon(prevState, formData) {
 
     await databases.createDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_REWARDS,
+      // process.env.REWARDS_COLLECTION_ID,
       prefs.dbId,
       prefs.rewards,
       ID.unique(),
@@ -790,7 +790,7 @@ export async function updateQueryReply(prevState, formData) {
 
     await databases.updateDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_QUERIES,
+      // process.env.QUERIES_COLLECTION_ID,
       prefs.dbId,
       prefs.queries,
       queryId,
@@ -816,7 +816,7 @@ export async function createQuery(prevState, formData) {
 
     await databases.createDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_QUERIES,
+      // process.env.QUERIES_COLLECTION_ID,
       prefs.dbId,
       prefs.queries,
       ID.unique(),
@@ -895,8 +895,12 @@ export async function createNewUserRegistration(prevState, formData) {
     const { users, account, databases } = await createAdminClient();
 
     const configData = await databases.getDocument(
-      process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID, // databaseId
-      process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID, // collectionId
+      process.env.SUBSCRIPTION_DATABASE_ID
+
+, // databaseId
+      process.env.SUBSCRIBERS_COLLECTION_ID
+
+, // collectionId
       adminId
     );
     const {
@@ -1239,7 +1243,9 @@ export async function uploadMaterial(prevState, formData) {
 
     // Upload File
     await storage.createFile(
-      process.env.NEXT_PUBLIC_MARKETING_MATERIAL_STORAGE,
+      process.env.MARKETING_MATERIAL_STORAGE_ID
+
+,
       ID.unique(),
       file
     );
@@ -1265,14 +1271,17 @@ export async function createCompaign(prevState, formData) {
 
     // Upload File
     const poster = await storage.createFile(
-      process.env.NEXT_PUBLIC_POSTERS_STORAGE,
+      process.env.POSTERS_STORAGE_ID
+
+
+,
       ID.unique(),
       file
     );
 
     await databases.createDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_COMPAIGNS,
+      // process.env.COMPAIGNS_COLLECTION_ID,
       prefs.dbId,
       prefs.campaigns,
       ID.unique(),
@@ -1300,7 +1309,7 @@ export async function updateCompaign(prevState, formData) {
 
     await databases.updateDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID,
-      process.env.NEXT_PUBLIC_COLLECTION_ID_COMPAIGNS,
+      process.env.COMPAIGNS_COLLECTION_ID,
       docID,
       {
         expiry,
@@ -1323,10 +1332,13 @@ export async function deleteCompaign(formData) {
     const { storage, databases } = await createAdminClient();
 
     // Delete File
-    await storage.deleteFile(process.env.NEXT_PUBLIC_POSTERS_STORAGE, fileID);
+    await storage.deleteFile(process.env.POSTERS_STORAGE_ID
+
+
+, fileID);
     await databases.deleteDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID,
-      process.env.NEXT_PUBLIC_COLLECTION_ID_COMPAIGNS,
+      process.env.COMPAIGNS_COLLECTION_ID,
       docID
     );
 
@@ -1346,7 +1358,9 @@ export async function deleteMaterial(formData) {
 
     // Delete File
     await storage.deleteFile(
-      process.env.NEXT_PUBLIC_MARKETING_MATERIAL_STORAGE,
+      process.env.MARKETING_MATERIAL_STORAGE_ID
+
+,
       fileID
     );
 
@@ -1367,7 +1381,7 @@ export async function deleteReward(formData) {
     // Delete File
     await databases.deleteDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID,
-      process.env.NEXT_PUBLIC_COLLECTION_ID_REWARDS,
+      process.env.REWARDS_COLLECTION_ID,
       fileID
     );
 

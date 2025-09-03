@@ -15,8 +15,12 @@ export default async function TiersManagementPage() {
   const user = await auth.getUser();
   const prefes = await users.getPrefs(user.$id);
   const currentUser = await databases.getDocument(
-    process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-    process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+    process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+    process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
     prefes.dbId
   );
   

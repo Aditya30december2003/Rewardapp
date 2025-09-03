@@ -32,7 +32,10 @@ export const POST = withAuth(async (req) => {
 
     // Upload file
     const uploaded = await storage.createFile(
-      process.env.NEXT_PUBLIC_LOGOS_STORAGE_ID,
+      process.env.LOGOS_STORAGE_ID
+
+
+,
       ID.unique(),
       file
     );
@@ -52,8 +55,12 @@ export const POST = withAuth(async (req) => {
     }
 
     await databases.updateDocument(
-      process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-      process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+      process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+      process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
       dbId,
       updateData
     );

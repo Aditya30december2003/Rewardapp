@@ -9,8 +9,9 @@ import TenantMobileTopMenu from "@/components/ui/sidebar/TenantMobileTopMenu";
 import Footer from "@/components/Footer";
 import UserMenu from "@/components/ui/UserMenu";
 
-const TENANTS_DB = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID;
-const TENANTS_COL = process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID;
+const TENANTS_DB = process.env.TENANTS_DATABASE_ID;
+const TENANTS_COL = process.env.TENANTS_COLLECTION_ID
+;
 
 /* ---------- Helper Components ---------- */
 

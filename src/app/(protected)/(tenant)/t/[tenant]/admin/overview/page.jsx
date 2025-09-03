@@ -72,8 +72,9 @@ export default async function OverviewPage({ params }) {
       
       // Query tenants collection by slug
       const tenantResult = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_Tenants_DATABASE_ID,
-        process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID,
+        process.env.TENANTS_DATABASE_ID,
+        process.env.TENANTS_COLLECTION_ID
+,
         [Query.equal("slug", tenantSlug)]
       );
       
@@ -98,8 +99,9 @@ export default async function OverviewPage({ params }) {
     if (prefs?.tenantId) {
       try {
         tenantDoc = await databases.getDocument(
-          process.env.NEXT_PUBLIC_Tenants_DATABASE_ID,
-          process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID,
+          process.env.TENANTS_DATABASE_ID,
+          process.env.TENANTS_COLLECTION_ID
+,
           prefs.tenantId // document id stored in user prefs
         );
         

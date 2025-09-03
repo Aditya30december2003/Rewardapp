@@ -169,7 +169,7 @@ export async function fetchLatestRegistrations() {
 
     const response = await databases.listDocuments(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_USERS,
+      // process.env.USERS_COLLECTION_ID,
       prefs.dbId,
       prefs.Users,
       [Query.orderDesc("$createdAt"), Query.limit(5)]
@@ -189,13 +189,14 @@ export async function fetchLatestRegistrations() {
 //     if(query==="" || queryType===""){
 //       const response = await databases.listDocuments(
 //         process.env.NEXT_PUBLIC_DATABASE_ID,
-//         process.env.NEXT_PUBLIC_COLLECTION_ID_USERS
+//         process.env.USERS_COLLECTION_ID
+
 //       );
 //       return response.documents;
 //     }else{
 //       const response = await databases.listDocuments(
 //         process.env.NEXT_PUBLIC_DATABASE_ID,
-//         process.env.NEXT_PUBLIC_COLLECTION_ID_USERS,
+//         process.env.USERS_COLLECTION_ID
 //         [ Query.contains(queryType, query)]
 //       );
 //       return response.documents;
@@ -214,7 +215,7 @@ export async function fetchAllTiers() {
 
     const response = await databases.listDocuments(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_TIERS
+      // process.env.TIERS_COLLECTION_ID
       prefs.dbId,
       prefs.tiers
     );
@@ -233,7 +234,7 @@ export async function fetchAllRewards() {
 
     const response = await databases.listDocuments(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_REWARDS
+      // process.env.REWARDS_COLLECTION_ID
       prefs.dbId,
       prefs.rewards
     );
@@ -250,7 +251,9 @@ export async function fetchAllMaterials() {
     const { storage } = await createAdminClient();
 
     const response = await storage.listFiles(
-      process.env.NEXT_PUBLIC_MARKETING_MATERIAL_STORAGE
+      process.env.MARKETING_MATERIAL_STORAGE_ID
+
+
     );
 
     return response.files;
@@ -269,7 +272,7 @@ export async function fetchAllTransactions() {
 
     const response = await databases.listDocuments(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_TRANSACTIONS
+      // process.env.TRANSACTIONS_COLLECTION_ID
       prefs.dbId,
       prefs.transactions
     );
@@ -288,7 +291,7 @@ export async function fetchAllQueries() {
 
     const response = await databases.listDocuments(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_QUERIES
+      // process.env.QUERIES_COLLECTION_ID
       prefs.dbId,
       prefs.queries
     );
@@ -307,7 +310,7 @@ export async function fetchAllCompaigns() {
 
     const response = await databases.listDocuments(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_COMPAIGNS
+      // process.env.COMPAIGNS_COLLECTION_ID
       prefs.dbId,
       prefs.campaigns
     );
@@ -366,7 +369,7 @@ export async function fetchUserInsights(userId) {
 
     const userDetail = await databases.getDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_USERS,
+      // process.env.USERS_COLLECTION_ID,
       prefs.dbId,
       prefs.Users,
       userId
@@ -580,7 +583,7 @@ export async function fetchUserAllLeads(userId) {
 
     const userDetail = await databases.getDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_USERS,
+      // process.env.USERS_COLLECTION_ID,
       prefs.dbId,
       prefs.Users,
       userId
@@ -608,7 +611,7 @@ export async function fetchUserDetails() {
     // console.log("fetching User Document with ID",user?.$id)
     const response = await databases.getDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_USERS,
+      // process.env.USERS_COLLECTION_ID,
       prefs.dbId,
       prefs.Users,
       user.$id
@@ -721,7 +724,7 @@ export async function fetchUserInsightsLevel(userId) {
 
     const userDetail = await databases.getDocument(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_USERS,
+      // process.env.USERS_COLLECTION_ID,
       prefs.dbId,
       prefs.Users,
       userId
@@ -837,7 +840,7 @@ export async function fetchAllUsers(filters = {}) {
 
     const response = await databases.listDocuments(
       // process.env.NEXT_PUBLIC_DATABASE_ID,
-      // process.env.NEXT_PUBLIC_COLLECTION_ID_USERS,
+      // process.env.USERS_COLLECTION_ID,
       prefs.dbId,
       prefs.Users,
       [...queryFilters, Query.limit(1000)]

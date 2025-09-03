@@ -2,8 +2,9 @@
 import { NextResponse } from "next/server";
 import { createSessionClient, createAdminClient } from "@/lib/server/appwrite";
 
-const TENANTS_DB = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID!;
-const TENANTS_COL = process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID!;
+const TENANTS_DB = process.env.TENANTS_DATABASE_ID!;
+const TENANTS_COL = process.env.TENANTS_COLLECTION_ID
+!;
 
 export const runtime = "nodejs"; // ensure Node runtime
 

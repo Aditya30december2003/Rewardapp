@@ -23,8 +23,12 @@ export default async function SideNav() {
       }
 
       const currentUser = await databases.getDocument(
-        process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-        process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+        process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+        process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
         prefes.dbId
       );
 
@@ -32,7 +36,10 @@ export default async function SideNav() {
       const bodyColor = currentUser.bodyColor;
       const accentColor = currentUser.accentColor;
       const logoId = currentUser.logoId;
-      const BuckedId = process.env.NEXT_PUBLIC_LOGOS_STORAGE_ID;
+      const BuckedId = process.env.LOGOS_STORAGE_ID
+
+
+;
       const appwriteUrl = process.env.NEXT_PUBLIC_ENDPOINT;
       const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 

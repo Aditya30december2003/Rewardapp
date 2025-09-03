@@ -16,8 +16,12 @@ const ContentUpdate = ({ prefs, Heading, Title, bodyColor }) => {
       // const { databases } = await createAdminClient();
 
       // await databases.updateDocument(
-      //   process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-      //   process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+      //   process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+      //   process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
       //   prefs.dbId,
       //   {
       //     heading: heading,

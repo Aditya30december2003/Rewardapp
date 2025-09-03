@@ -14,8 +14,12 @@ async function loadData() {
   const prefs = await users.getPrefs(user.$id);
 
   // If prefs don't have dbId yet, avoid throwing
-  const dbId = process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID;
-  const collectionId = process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID;
+  const dbId = process.env.SUBSCRIPTION_DATABASE_ID
+
+;
+  const collectionId = process.env.SUBSCRIBERS_COLLECTION_ID
+
+;
 
   const dataPromise =
     prefs?.dbId && dbId && collectionId

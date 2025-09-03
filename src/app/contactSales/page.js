@@ -1,4 +1,5 @@
 // src/app/contactSales/page.jsx
+export const runtime="nodejs"
 import React from "react";
 import Link from "next/link";
 import { headers } from "next/headers";
@@ -42,8 +43,11 @@ async function submit(formData) {
   const ua = h.get("user-agent") || "unknown";
 
   // Use non-public env vars on the server
-  const DB_CRM = process.env.APPWRITE_CRM_DATABASE_ID || process.env.NEXT_CRM_PUBLIC_DATABASE_ID;
-  const LEADS = process.env.APPWRITE_LEADS_COLLECTION_ID || process.env.NEXT_PUBLIC_COLLECTION_ID_LEADS;
+  const DB_CRM = process.env.CRM_DATABASE_ID
+;
+  const LEADS = process.env.CRM_COLLECTION_LEADS
+
+;
 
   if (!DB_CRM || !LEADS) {
     throw new Error(

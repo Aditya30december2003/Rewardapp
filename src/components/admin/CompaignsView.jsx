@@ -39,7 +39,10 @@ const renderDocument = (document, setIsUpdatePopupOpen, setSelectedDocId) => (
       <div className="flex items-center justify-end gap-4">
         <div className="flex-shrink-0 border rounded-md hover:bg-gray-100 bg-gray-50 text-gray-500  text-xl h-10 aspect-square flex items-center justify-center">
           <a
-            href={`${process.env.NEXT_PUBLIC_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_POSTERS_STORAGE}/files/${document.poster}/view?project=${process.env.NEXT_PUBLIC_PROJECT_ID}`}
+            href={`${process.env.NEXT_PUBLIC_ENDPOINT}/storage/buckets/${process.env.POSTERS_STORAGE_ID
+
+
+}/files/${document.poster}/view?project=${process.env.NEXT_PUBLIC_PROJECT_ID}`}
             target="_blank"
           >
             <FaEye />

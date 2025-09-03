@@ -23,8 +23,12 @@ export const POST = withAuth(async (req) => {
   try {
     const { databases } = await createAdminClient();
     await databases.updateDocument(
-      process.env.NEXT_PUBLIC_SUBSCRIPTION_DATABASE_ID,
-      process.env.NEXT_PUBLIC_SUBSCRIBERS_COLLECTION_ID,
+      process.env.SUBSCRIPTION_DATABASE_ID
+
+,
+      process.env.SUBSCRIBERS_COLLECTION_ID
+
+,
       dbId,
       { bodyColor, accentColor }
     );

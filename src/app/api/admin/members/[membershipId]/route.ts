@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 import { cookies as nextCookies } from "next/headers";
 import { createAdminClient } from "@/lib/server/appwrite";
 
-const TENANTS_DB = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID!;
-const TENANTS_COL = process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID!;
+const TENANTS_DB = process.env.TENANTS_DATABASE_ID!;
+const TENANTS_COL = process.env.TENANTS_COLLECTION_ID
+!;
 
 export async function DELETE(req: Request, ctx: { params: { membershipId?: string } }) {
   console.log("=== MEMBER DELETE API DEBUG ===");

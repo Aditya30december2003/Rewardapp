@@ -6,8 +6,9 @@ import { createSessionClient } from "@/lib/server/appwrite";
 import { createAdminClient } from "@/lib/server/appwrite"; 
 
 // You need to define these constants - replace with your actual values
-const TENANTS_DB = process.env.NEXT_PUBLIC_Tenants_DATABASE_ID
-const TENANTS_COL =process.env.NEXT_PUBLIC_Tenants_COLLECTION_ID
+const TENANTS_DB = process.env.TENANTS_DATABASE_ID
+const TENANTS_COL =process.env.TENANTS_COLLECTION_ID
+
 
 /**
  * Get the roles a user has within a tenant, by slug.
