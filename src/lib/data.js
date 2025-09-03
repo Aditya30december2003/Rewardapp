@@ -1,4 +1,4 @@
-import { createAdminClient, storekwilAdminClient } from "../appwrite/config";
+import { createAdminClient, storekwilAdminClient } from "@/lib/server/appwrite";
 import { cookies } from "next/headers";
 import { Query } from "node-appwrite";
 import auth from "./auth";

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import RegisterForm from "@/components/auth/Register";
+import { Suspense } from "react";
 
-export default function RegisterPage() {
+function RegisterPageInner() {
   return (
     <main className="relative min-h-screen bg-[url('/bg.webp')] bg-cover bg-center">
       <div className="absolute inset-0">
@@ -38,13 +39,23 @@ export default function RegisterPage() {
             <h3 className="mb-1 text-2xl font-semibold text-gray-900">Sign up</h3>
             <p className="mb-4 text-sm text-gray-600">
               Already have an account?{" "}
-              <Link href="/login" className="font-semibold text-indigo-600 hover:underline">Sign in</Link>
+              <Link href="/login" className="font-semibold text-indigo-600 hover:underline">
+                Sign in
+              </Link>
             </p>
-
             <RegisterForm redirectTo="/admin/overview" />
           </div>
         </div>
       </section>
     </main>
+  );
+}
+
+// Page export wrapped in Suspense
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-md p-6">Loading…</div>}>
+      <RegisterPageInner />
+    </Suspense>
   );
 }

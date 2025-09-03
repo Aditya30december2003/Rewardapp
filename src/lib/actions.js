@@ -1,6 +1,6 @@
 "use server";
 
-import { createAdminClient, createSessionClient } from "@/appwrite/config";
+import { createAdminClient, createSessionClient } from "@/lib/server/appwrite";
 import auth from "./auth";
 import { setSessionCookie, clearSessionCookie, getSessionCookie } from "@/lib/sessionCookie";
 import { cookies } from "next/headers";

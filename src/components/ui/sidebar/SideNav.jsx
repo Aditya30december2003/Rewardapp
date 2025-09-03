@@ -1,20 +1,12 @@
 import Link from "next/link";
 import LogoutBtn from "./LogoutBtn";
 import NavLinks from "./NavLinks";
-import auth from "../../../lib/auth";
-import { createAdminClient } from "../../../appwrite/config";
+import auth from "@/lib/auth";
+import { createAdminClient } from "@/lib/server/appwrite";
 
 export default async function SideNav() {
   const { users, databases } = await createAdminClient();
   const user = await auth.getUser();
-  console.log("=== SIDENAV DEBUG ===");
-  console.log("User:", user?.email);
-  console.log("User labels:", user?.labels);
-  console.log("First label:", user?.labels?.[0]);
-  console.log("Is admin check:", user.labels?.[0] === "admin");
-  console.log("Is user check:", user.labels?.[0] === "user" && user.name !== "Demo");
-  console.log("=== END SIDENAV DEBUG ===");
-  // Check if user exists and has the required labels
   if (!user) {
     return <div>Loading...</div>;
   }

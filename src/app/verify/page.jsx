@@ -1,9 +1,11 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createWebClient } from "@/lib/client/appwrite";
+import { getBrowserSDK } from "@/lib/client/appwrite"; // make sure this export exists
+import { Suspense } from "react";
 
-export default function VerifyPage() {
+function VerifyPageInner() {
   const router = useRouter();
   const [sending, setSending] = useState(false);
   const [msg, setMsg] = useState("We’ve sent a verification link to your email.");
@@ -13,7 +15,7 @@ export default function VerifyPage() {
     setSending(true);
     setErr("");
     try {
-      const { account } = createWebClient();
+      const { account } = getBrowserSDK();
       await account.createVerification(`${process.env.NEXT_PUBLIC_DOMAIN}/verify/callback`);
       setMsg("Verification email re-sent. Please check your inbox.");
     } catch (e) {
@@ -24,7 +26,6 @@ export default function VerifyPage() {
   }
 
   async function continueAfterVerified() {
-    // Ask the server where to go (it already checks verification + teams)
     const dest = await fetch("/api/auth/next-destination", { method: "POST" }).then(r => r.json());
     router.replace(dest?.path || "/choose-workspace");
   }
@@ -50,5 +51,14 @@ export default function VerifyPage() {
         </button>
       </div>
     </main>
+  );
+}
+
+// Page export wrapped in Suspense
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-md p-6">Loading…</div>}>
+      <VerifyPageInner />
+    </Suspense>
   );
 }

@@ -4,6 +4,7 @@ const ALLOWED = new Set([
   "https://rewards.storekwil.com",
   // "http://localhost:3000", // <- uncomment for local dev if needed
   // add other allowed origins here
+  "https://rewardapp.hivefinty.com"
 ]);
 
 export function corsHeaders(req) {
