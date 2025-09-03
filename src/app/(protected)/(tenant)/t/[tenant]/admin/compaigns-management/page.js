@@ -1,10 +1,5 @@
 import { createAdminClient } from "@/appwrite/config";
 import CompaignsView from "@/components/admin/CompaignsView";
-import CouponRewardsList from "@/components/admin/CouponRewardsList";
-import LevelTierList from "@/components/admin/LevelTierList";
-import LevelTierContainer from "@/components/admin/LevelTierList";
-import TicketView from "@/components/admin/TicketView";
-import UsersTable from "@/components/admin/UsersTable";
 import auth from "@/lib/auth";
 import { fetchAllCompaigns, fetchAllQueries } from "@/lib/data";
 import { cookies } from "next/headers";

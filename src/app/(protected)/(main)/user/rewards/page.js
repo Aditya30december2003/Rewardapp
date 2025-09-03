@@ -1,5 +1,3 @@
-import LevelProgress from "@/components/user/account/LevelProgress";
-import GetReferCode from "@/components/user/referral/GetReferCode";
 import RedeemPoints from "@/components/user/reward/RedeemPoints";
 import { fetchAllRewards, fetchUserLevel } from "@/lib/data";
 import { cookies } from "next/headers";

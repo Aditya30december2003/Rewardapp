@@ -10,8 +10,6 @@ import {
   UserCardData,
   UserInsights,
 } from "@/components/adminui/DashboardCards";
-import RevenueChart from "@/components/user/dashboard/RevenueChart";
-import LatestRegistrations from "@/components/user/dashboard/LatestRegistrations";
 import Breadcrumbs from "@/components/ui/Cases/Breadcrumbs";
 import AllLeads from "@/components/user/dashboard/AllLeads";
 import { fetchUserInsightsLevel } from "@/lib/data";

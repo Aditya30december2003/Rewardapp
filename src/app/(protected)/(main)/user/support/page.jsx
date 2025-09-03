@@ -1,6 +1,3 @@
-import CreateUserForm from "@/components/adminui/CreateUser";
-import Breadcrumbs from "@/components/ui/Cases/Breadcrumbs";
-import ComplaintForm from "@/components/user/support/ComplaintForm";
 import UserTickets from "@/components/user/support/UserTickets";
 import { fetchUserDetails } from "@/lib/data";
 import { cookies } from "next/headers";
