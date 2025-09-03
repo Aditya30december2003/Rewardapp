@@ -9,6 +9,7 @@ const PUBLIC_PATHS: RegExp[] = [
   /^\/verify(\/.*)?$/,
   /^\/auth\/invite(\/.*)?$/,
   /^\/password\/reset(\/.*)?$/,
+  /^\/contactSales(\/.*)?$/
 ];
 
 function isBypass(pathname: string) {
