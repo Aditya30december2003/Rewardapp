@@ -36,6 +36,9 @@ export default function RegisterForm({
 
       // 2) Create session
       await account.createEmailPasswordSession(email, password);
+      
+     await account.createVerification(`${process.env.NEXT_PUBLIC_DOMAIN}/verify/callback`);
+
 
       // 3) Mint JWT
       const { jwt } = await account.createJWT();
@@ -57,7 +60,10 @@ export default function RegisterForm({
       }
 
       // 5) Redirect to your onboarding/overview
-      router.replace(redirectTo);
+const dest = await fetch("/api/auth/next-destination", { method: "POST" })
+  .then(r => r.json());
+router.replace(dest?.path || "/choose-workspace");
+
     } catch (err) {
       setError(err?.message || "Registration failed");
       setSubmitting(false);

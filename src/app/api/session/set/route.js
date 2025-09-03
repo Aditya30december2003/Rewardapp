@@ -70,7 +70,7 @@ export async function POST(req) {
       secure: isProd,
       sameSite: "strict",
       path: "/",
-      ...(maxAge ? { maxAge } : {}),
+      ...(maxAge ? { maxAge } : {}), 
     });
 
     if (debug) {

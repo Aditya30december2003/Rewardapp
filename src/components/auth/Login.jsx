@@ -6,7 +6,7 @@ import Input from "../common/Input";
 import Button from "../common/Button";
 import { BiSolidError } from "react-icons/bi";
 import { createWebClient } from "@/appwrite/web";
-
+ 
 function safeErr(e) {
   if (!e) return "Unknown error";
   if (typeof e === "string") return e;
@@ -85,14 +85,17 @@ export default function Login({ className = "" }) {
       if (!who?.ok) throw new Error("Server cannot read JWT cookie (whoami failed): " + (who?.error || "unknown"));
 
       // 5) Redirect
-      log("All good. Redirecting to /admin/overview …");
-      router.replace("/admin/overview");
+      log("All good. Redirecting to /admin/workspace");
+      
+      // old: router.replace("/admin/overview");
+const dest = await fetch("/api/auth/next-destination", { method: "POST" })
+  .then(r => r.json());
+router.replace(dest?.path || "/choose-workspace");
 
-      // Safety valve: if something blocks navigation, hard reload after 1s
-      setTimeout(() => {
-        log("Force reload failsafe.");
-        window.location.href = "/admin/overview";
-      }, 1000);
+setTimeout(() => {
+  window.location.href = dest?.path || "/choose-workspace";
+}, 1000);
+ 
 
     } catch (e) {
       err("Login failed:", e);

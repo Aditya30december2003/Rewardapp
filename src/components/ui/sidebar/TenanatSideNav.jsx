@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
-import { usePathname, useParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 // Icons
 import { RxDashboard } from "react-icons/rx";
@@ -25,7 +25,7 @@ import {
 } from "react-icons/ri";
 import { 
   HiMenuAlt3, 
-  HiX, 
+  HiX,  
   HiOutlineUserGroup,
   HiOutlineGift,
   HiOutlineCollection
@@ -36,8 +36,8 @@ import {
   AiOutlineFileText 
 } from "react-icons/ai";
 
-// Link configuration (paths are suffixes; we'll prefix with /t/:tenant/:role at runtime)
-const links = [
+// Link configuration for tenant routes
+const tenantLinks = [
   // Admin links
   { name: "Overview", href: "overview", icon: RxDashboard, allow: ["admin", "user", "superadmin"], group: "main" },
   { name: "API Keys", href: "api-keys", icon: AiOutlineApi, allow: ["admin"], group: "main" },
@@ -68,39 +68,28 @@ const links = [
   { name: "API Keys", href: "api-keys", icon: FaKey, allow: ["admin"], group: "settings" },
 ];
 
-export default function Sidebar({ user, PremiumPlan }) {
+export default function TenantSideNav({ user, uiRole, basePrefix, PremiumPlan = false }) {
   const pathname = usePathname();
-  const params = useParams(); // will have { tenant } when rendered under /t/[tenant]/...
-  const tenant = (params?.tenant || "") || ""; // empty string if not under /t/[tenant]
-  const hasTenant = Boolean(tenant);
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Map your app's notion of roles; treat "owner" as admin in the UI
-  const rawRole = ((user?.labels && user.labels[0]) || user?.role || "user").toLowerCase();
-  const userRole = (rawRole === "owner" || rawRole === "admin") ? "admin" : rawRole;
-
+  // Filter links based on the user's role
   const allowedLinks = useMemo(
-    () => links.filter((link) => link.allow.includes(userRole)),
-    [userRole]
+    () => tenantLinks.filter((link) => link.allow.includes(uiRole)),
+    [uiRole]
   );
 
   const mainLinks = allowedLinks.filter((l) => l.group === "main");
   const settingsLinks = allowedLinks.filter((l) => l.group === "settings");
 
-  // Prefix to use for all links and the logo
-  const basePrefix = hasTenant ? `/t/${tenant}` : "";
-
   const NavLink = ({ link }) => {
     const LinkIcon = link.icon;
     const isLinkDisabled = PremiumPlan && link.href === "upgrade-plan";
 
-    // final link: /t/:tenant/:role/:suffix  OR  /:role/:suffix when no tenant in URL
-    const linkPath = `${basePrefix}/${userRole}/${link.href}`;
+    // Build the full path: /t/[tenant]/[role]/[href]
+    const linkPath = `${basePrefix}/${uiRole}/${link.href}`;
 
-    // Active if pathname exactly matches or starts with (covers nested routes)
-    const isActive =
-      pathname === linkPath || pathname.startsWith(linkPath + "/");
+    // Check if current path matches this link
+    const isActive = pathname === linkPath || pathname.startsWith(linkPath + "/");
 
     return (
       <Link
@@ -131,25 +120,31 @@ export default function Sidebar({ user, PremiumPlan }) {
         {isMobileMenuOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
       </button>
 
-      {/* Sidebar */}
-      <aside
-        className={clsx(
-          "fixed top-0 left-0 z-40 flex h-screen w-64 flex-col bg-gray-900 text-white transition-transform duration-300 ease-in-out md:translate-x-0",
-          {
-            "translate-x-0": isMobileMenuOpen,
-            "-translate-x-full": !isMobileMenuOpen,
-          }
-        )}
-      >
-        {/* Header/Logo */}
+      {/* Sidebar Content */}
+      <div className="flex h-full flex-col">
+        {/* Logo/Header */}
         <div style={{ marginTop: "8%" }} className="flex h-16 items-center justify-center border-b border-gray-800 px-6">
-          <Link href={`${basePrefix}/${userRole}/overview`}>
-            <Image src="/logo.png" alt="YourApp Logo" width={100} height={100} priority />
+          <Link href={`${basePrefix}/${uiRole}/overview`}>
+            <Image 
+              src="/logo.png" 
+              alt="App Logo" 
+              width={100} 
+              height={100} 
+              priority
+              className="object-contain"
+            />
           </Link>
         </div>
 
-        {/* Nav Links */}
-        <nav className="flex-1 space-y-4 overflow-y-auto p-4 sidebar-scroll">
+        {/* Navigation Links */}
+        <nav className="flex-1 space-y-4 overflow-y-auto p-4 sidebar-scroll bg-gray-900">
+          {/* Debug Info - Remove in production */}
+          {/* <div className="text-xs text-gray-500 p-2 bg-gray-800 rounded">
+            <p>Role: {uiRole}</p>
+            <p>User: {user?.email}</p>
+            <p>Prefix: {basePrefix}</p>
+          </div> */}
+
           {mainLinks.length > 0 && (
             <div>
               <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
@@ -177,19 +172,20 @@ export default function Sidebar({ user, PremiumPlan }) {
           )}
         </nav>
 
-        {/* Footer/User profile */}
-        <div className="border-t border-gray-800 p-4">
+        {/* User Profile Footer */}
+        <div className="border-t border-gray-800 p-4 bg-gray-900">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-600 font-bold">
               {(user?.name && user.name.charAt(0).toUpperCase()) || "U"}
             </div>
             <div>
-              <p className="text-sm font-semibold">{user?.name || "User Name"}</p>
+              <p className="text-sm font-semibold text-white">{user?.name || "User Name"}</p>
               <p className="text-xs text-gray-400">{user?.email || "user@example.com"}</p>
+              <p className="text-xs text-sky-400 capitalize">{uiRole}</p>
             </div>
           </div>
         </div>
-      </aside>
+      </div>
 
       {/* Mobile overlay */}
       {isMobileMenuOpen && (

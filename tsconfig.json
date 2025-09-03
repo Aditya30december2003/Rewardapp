@@ -33,7 +33,7 @@
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx"
-  ],
+, "src/app/(protected)/t/[tenant]/layout.jsx.disabled"  ],
   "exclude": [
     "node_modules"
   ]

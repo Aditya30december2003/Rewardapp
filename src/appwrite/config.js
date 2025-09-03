@@ -134,5 +134,23 @@ export function createSessionClient(jwt) {
     databases: new Databases(client),
     storage:   new Storage(client),
     teams:     new Teams(client),
+    users: new Users(client),
+  };
+}
+// In your appwrite/config.js file, add:
+
+export function storekwilAdminClient() {
+  const client = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_STOREKWIL_PROJECT_ID) // Note: different project ID
+    .setKey(process.env.STOREKWIL_API_KEY); // Note: different API key
+
+  return {
+    client,
+    account: new Account(client),
+    databases: new Databases(client),
+    storage: new Storage(client),
+    teams: new Teams(client),
+    users: new Users(client),
   };
 }
