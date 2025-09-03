@@ -3,6 +3,7 @@
 import Link from "next/link";
 import RegisterForm from "@/components/auth/Register";
 import { Suspense } from "react";
+import Image from "next/image";
 
 function RegisterPageInner() {
   return (
@@ -13,7 +14,7 @@ function RegisterPageInner() {
 
       <header className="relative z-10 flex items-center justify-center md:justify-start p-6 px-8">
         <Link href="/" className="inline-flex items-center gap-2">
-          <img src="/logowhite.png" alt="Perktify" className="h-12" />
+          <Image src="/logowhite.png" alt="Perktify" className="h-12" />
         </Link>
       </header>
 
