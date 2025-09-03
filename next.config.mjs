@@ -1,4 +1,3 @@
-// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: { remotePatterns: [{ protocol: "https", hostname: "**" }] },
@@ -9,17 +8,11 @@ const nextConfig = {
   },
   eslint: { ignoreDuringBuilds: true },
 
-  // Remove CSP here; middleware handles it with a nonce now.
+  // IMPORTANT: Do NOT set CSP here anymore; middleware sets it dynamically.
+  // If you want to keep other static headers here, ensure the list is non-empty.
+  // For now, we return nothing.
   async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          // If you still want to keep non-CSP headers here, you can,
-          // but it's cleaner to keep them in middleware with CSP.
-        ],
-      },
-    ];
+    return [];
   },
 };
 

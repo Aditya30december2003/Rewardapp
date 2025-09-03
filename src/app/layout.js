@@ -1,11 +1,10 @@
-// src/app/layout.tsx (or .jsx)
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { headers } from "next/headers";
-import Script from "next/script";
+// import Script from "next/script"; // only if you need to add inline scripts with nonce
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +23,10 @@ export default function RootLayout({ children }) {
         <ToastContainer theme="light" position="top-right" />
         <NextTopLoader color="#192048" height={6} showSpinner={false} />
 
-        {/* Example: if you ever add inline scripts, pass the nonce */}
-        {/* <Script id="bootstrap" nonce={nonce}>{`window.__APP__ = { v: 1 }`}</Script> */}
+        {/*
+        Example if you ever add inline script:
+        <Script id="boot" nonce={nonce}>{`window.__APP__ = { v: 1 }`}</Script>
+        */}
       </body>
     </html>
   );
