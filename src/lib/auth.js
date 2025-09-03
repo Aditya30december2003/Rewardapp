@@ -30,7 +30,7 @@ export async function getRolesForTenant(userId, slug) {
     
     const tenant = tenantsResp.documents[0];
     if (!tenant) {
-      console.log(`No tenant found for slug: ${slug}`);
+      console.log(`No tenant found for this slug: ${slug}`);
       return [];
     }
 
