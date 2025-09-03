@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/server/appwrite";
 
 const TENANTS_DB  = process.env.TENANTS_DATABASE_ID!;
-const TENANTS_COL = process.env.TENANTS_COLLECTION_ID
-!;
+const TENANTS_COL = process.env.TENANTS_COLLECTION_ID!;
 const DOMAIN      = process.env.NEXT_PUBLIC_DOMAIN || "http://localhost:3000";
 const INVITE_URL  = `${DOMAIN}/auth/invite/callback`;
 
