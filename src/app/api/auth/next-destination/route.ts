@@ -1,111 +1,139 @@
 // app/api/auth/next-destination/route.ts
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import { createSessionClient, createAdminClient } from "@/lib/server/appwrite";
 
-const TENANTS_DB = process.env.TENANTS_DATABASE_ID!;
+const TENANTS_DB  = process.env.TENANTS_DATABASE_ID!;
 const TENANTS_COL = process.env.TENANTS_COLLECTION_ID!;
 
-export const runtime = "nodejs"; // ensure Node runtime
-
 function readCookie(req: Request, name: string) {
-  const header = req.headers.get("cookie") || "";
-  const m = header.match(new RegExp(`${name}=([^;]+)`));
+  const m = (req.headers.get("cookie") || "").match(new RegExp(`${name}=([^;]+)`));
   return m?.[1] ?? null;
+}
+
+// Normalize roles array → lowercase strings
+function normRoles(v: any): string[] {
+  if (!Array.isArray(v)) return [];
+  return v.map((r) => String(r || "").toLowerCase()).filter(Boolean);
+}
+
+// Extract a teamId from a membership object that could have different shapes
+function getMembershipTeamId(m: any): string | null {
+  return (
+    m?.teamId ||
+    m?.team?.$id ||
+    m?.$teamId ||
+    m?.team?.teamId ||
+    null
+  );
 }
 
 export async function POST(req: Request) {
   try {
+    // 1) Current user (via session JWT)
     const jwt = readCookie(req, "session");
-    if (!jwt) {
-      return NextResponse.json({ path: "/login", reason: "no-jwt" }, { status: 401 });
-    }
+    if (!jwt) return NextResponse.json({ path: "/login", reason: "no-jwt" }, { status: 401 });
 
     const { account } = createSessionClient(jwt);
     const me = await account.get();
 
-    if (!me.emailVerification) {
-      return NextResponse.json({ path: "/verify" });
+    if (!me?.emailVerification) {
+      return NextResponse.json({ path: "/verify" }, { status: 200 });
     }
 
+    // 2) Admin client to query memberships & tenants
     const { users, databases } = createAdminClient();
     const { Query } = await import("node-appwrite");
 
-    // 1) Get all memberships for this user
-    const membershipsResp = await users.listMemberships(me.$id);
-    const memberships = membershipsResp.memberships || [];
-    if (!memberships.length) {
-      return NextResponse.json({ path: "/choose-workspace" });
+    // List all team memberships for this user
+    // (admin endpoint; ok on server)
+    const mResp = await users.listMemberships(me.$id);
+    const allMemberships: any[] = Array.isArray(mResp?.memberships) ? mResp.memberships : [];
+
+    // No teams at all → choose workspace
+    if (!allMemberships.length) {
+      return NextResponse.json({ path: "/choose-workspace" }, { status: 200 });
     }
 
-    // 2) Resolve target tenant (prefer the active-tenant cookie if present)
-    const activeSlug = readCookie(req, "active-tenant");
-
-    let tenantDoc: any | null = null;
-    if (activeSlug) {
-      const tBySlug = await databases.listDocuments(
+    // Helper: given a teamId, resolve tenantDoc (slug) if exists
+    const findTenantByTeamId = async (teamId: string) => {
+      const r = await databases.listDocuments(
         TENANTS_DB,
         TENANTS_COL,
-        [Query.equal("slug", activeSlug)]
+        [Query.equal("teamId", teamId), Query.limit(1)]
       );
-      tenantDoc = tBySlug.documents[0] ?? null;
-      // If cookie slug is stale or unknown, fall back below
-    }
+      return r.total > 0 ? r.documents[0] : null;
+    };
 
-    // 3) If no tenant from cookie, pick one from memberships and fetch its tenant doc
-    let teamId: string | null = null;
-    if (tenantDoc) {
-      teamId = tenantDoc.teamId;
-    } else {
-      // choose first membership that has a tenant link
-      for (const m of memberships) {
-        const mid =
-          (m as any).teamId ||
-          (m as any).team?.$id ||
-          (m as any).$teamId ||
-          (m as any).team?.teamId;
+    // Helper: given a slug, resolve {teamId, tenantDoc}
+    const findTenantBySlug = async (slug: string) => {
+      const r = await databases.listDocuments(
+        TENANTS_DB,
+        TENANTS_COL,
+        [Query.equal("slug", slug), Query.limit(1)]
+      );
+      if (r.total === 0) return { teamId: null as string | null, tenantDoc: null as any };
+      const tenantDoc = r.documents[0];
+      const teamId = String(tenantDoc.teamId || "");
+      return { teamId, tenantDoc };
+    };
 
-        if (!mid) continue;
+    // 3) If there's an active-tenant cookie, use it only if the user is a member of that team
+    let chosen: { teamId: string | null; tenantDoc: any | null } = { teamId: null, tenantDoc: null };
 
-        const tResp = await databases.listDocuments(
-          TENANTS_DB,
-          TENANTS_COL,
-          [Query.equal("teamId", mid)]
-        );
-        if (tResp.total > 0) {
-          tenantDoc = tResp.documents[0];
-          teamId = mid;
-          break;
+    const rawCookieSlug = readCookie(req, "active-tenant");
+    const cookieSlug = rawCookieSlug ? decodeURIComponent(rawCookieSlug) : null;
+
+    if (cookieSlug) {
+      const tmp = await findTenantBySlug(cookieSlug);
+      if (tmp.teamId) {
+        const member = allMemberships.find((m) => getMembershipTeamId(m) === tmp.teamId);
+        if (member) {
+          chosen = tmp; // cookie accepted because membership confirmed
         }
       }
     }
 
-    if (!tenantDoc || !teamId) {
-      // Team exists but not linked in your Tenants collection yet
-      return NextResponse.json({ path: "/choose-workspace" });
+    // 4) If no valid cookie target, pick best membership:
+    //    - Prefer owner/admin if present
+    if (!chosen.teamId) {
+      // Partition memberships by role priority
+      const withRoles = allMemberships.map((m) => ({
+        m,
+        roles: normRoles(m?.roles),
+        teamId: getMembershipTeamId(m),
+      })).filter((x) => x.teamId);
+
+      const adminish = withRoles.find((x) => x.roles.includes("owner") || x.roles.includes("admin"));
+      const candidate = adminish || withRoles[0];
+
+      if (candidate?.teamId) {
+        const tenantDoc = await findTenantByTeamId(candidate.teamId);
+        if (tenantDoc) {
+          chosen = { teamId: candidate.teamId, tenantDoc };
+        }
+      }
     }
 
-    const slug: string = tenantDoc.slug;
+    // 5) If still nothing resolvable, fallback to choose-workspace
+    if (!chosen.teamId || !chosen.tenantDoc) {
+      return NextResponse.json({ path: "/choose-workspace" }, { status: 200 });
+    }
 
-    // 4) Find the membership for *this* team and compute role bucket
-    const current = memberships.find((m) => {
-      const mid =
-        (m as any).teamId ||
-        (m as any).team?.$id ||
-        (m as any).$teamId ||
-        (m as any).team?.teamId;
-      return mid === teamId;
-    });
+    const slug = String(chosen.tenantDoc.slug || "");
+    const teamId = String(chosen.teamId);
 
-    const roles: string[] = Array.isArray((current as any)?.roles)
-      ? (current as any).roles.map((r: string) => r.toLowerCase())
-      : [];
-
+    // 6) Compute current roles for this team only
+    const myMembership = allMemberships.find((m) => getMembershipTeamId(m) === teamId);
+    const roles = normRoles(myMembership?.roles);
     const isAdmin = roles.includes("owner") || roles.includes("admin");
-    const path = isAdmin ? `/t/${slug}/admin/overview` : `/t/${slug}/user/overview`;
 
-    return NextResponse.json({ path });
+    const path = isAdmin ? `/t/${slug}/admin/overview` : `/t/${slug}/user/overview`;
+    return NextResponse.json({ path }, { status: 200 });
   } catch (error) {
     console.error("[next-destination] error:", error);
+    // In doubt, do not reveal tenant—send chooser
     return NextResponse.json({ path: "/choose-workspace" }, { status: 200 });
   }
 }
